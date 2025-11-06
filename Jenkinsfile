@@ -1,12 +1,7 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/Prabh-84/devops-app.git'
-            }
-        }
+    
 
         stage('Install Dependencies') {
             steps {
