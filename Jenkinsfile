@@ -34,3 +34,5 @@ pipeline {
         failure {
             echo '❌ Pipeline Failed. Check logs.'
         }
+    }
+}
