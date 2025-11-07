@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.json({ message: 'App running successfully! , Hello Ashwinder' });
+  res.json({ message: 'App running successfully! , Hello Ashwinder Pal Singh' });
 });
 
 // expose /metrics
