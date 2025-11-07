@@ -20,9 +20,16 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Deploy Container') {
             steps {
-                bat 'docker run -d -p 3000:3000 devops-app'
+                // Stop old container if running
+                bat 'docker stop devops-app || exit 0'
+                
+                // Remove old container if exists
+                bat 'docker rm devops-app || exit 0'
+                
+                // Run new container
+                bat 'docker run -d --name devops-app -p 3000:3000 devops-app'
             }
         }
     }
