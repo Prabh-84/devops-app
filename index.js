@@ -1,29 +1,30 @@
 const express = require('express');
 const client = require('prom-client');
+const path = require('path');
 
 const app = express();
-const collectDefaultMetrics = client.collectDefaultMetrics;
 
-// Collect default system metrics (CPU, Memory, Event Loop, etc.)
-collectDefaultMetrics();
+// Prometheus (already installed)
+client.collectDefaultMetrics();
 
-// Custom counter metric to count homepage hits
-const httpRequests = new client.Counter({
-  name: 'http_requests_total',
-  help: 'Total number of HTTP requests',
+// Static UI
+app.use(express.static(path.join(__dirname, 'public')));
+
+// API (optional)
+app.get('/api', (req, res) => {
+  res.json({ message: 'CI/CD working ✅ via Jenkins → Docker → Docker Hub → Render' });
 });
 
-app.get('/', (req, res) => {
-  httpRequests.inc(); // Increment counter
-  res.json({ message: 'App running successfully! , Hello Prabh w/ Monitoring ✅' });
+// Health endpoint for dashboard
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime(), timestamp: new Date().toISOString() });
 });
 
-// Metrics endpoint (Prometheus scrapes this)
+// Metrics endpoint (already added earlier, keep as-is)
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', client.register.contentType);
   res.end(await client.register.metrics());
 });
 
-// Dynamic PORT for Render
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

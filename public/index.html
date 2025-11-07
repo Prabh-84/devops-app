@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevOps Automation System</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header class="container hero">
+    <h1>DevOps Automation System</h1>
+    <p class="subtitle">CI/CD powered by Jenkins • Docker • Docker Hub • Render • Prometheus</p>
+    <div class="cta-row">
+      <a class="btn primary" href="/">Home</a>
+      <a class="btn outline" href="/metrics" target="_blank">Open /metrics</a>
+      <a class="btn outline" href="/api" target="_blank">Open /api</a>
+    </div>
+  </header>
+
+  <main class="container grid">
+    <section class="card">
+      <h2>Live Checks</h2>
+      <div class="checks">
+        <div class="check">
+          <div class="check-head">
+            <span>API Health</span>
+            <span id="health-badge" class="badge grey">Unknown</span>
+          </div>
+          <button id="btn-health" class="btn small">Check Health</button>
+          <pre id="health-output" class="code"></pre>
+        </div>
+
+        <div class="check">
+          <div class="check-head">
+            <span>Metrics Snapshot</span>
+            <span class="badge blue">Prometheus</span>
+          </div>
+          <button id="btn-metrics" class="btn small">Fetch Metrics (first 25 lines)</button>
+          <pre id="metrics-output" class="code"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Deployment Info</h2>
+      <ul class="list">
+        <li><span>Branch:</span> <code>main</code></li>
+        <li><span>Image:</span> <code>docker.io/prabh84/devops-app:latest</code></li>
+        <li><span>Platform:</span> <code>Render (Docker)</code></li>
+        <li><span>Auto-Deploy:</span> <code>Jenkins → Docker Hub → Render Hook</code></li>
+      </ul>
+      <p class="muted">Tip: Update this card with commit SHA/build no. later from env.</p>
+    </section>
+
+    <section class="card">
+      <h2>Tools Used</h2>
+      <div class="chips">
+        <span class="chip">Git</span>
+        <span class="chip">GitHub</span>
+        <span class="chip">Jenkins</span>
+        <span class="chip">Docker</span>
+        <span class="chip">Docker Hub</span>
+        <span class="chip">Render</span>
+        <span class="chip">Prometheus</span>
+        <span class="chip">Grafana (Next)</span>
+      </div>
+      <p class="muted">This app auto-redeploys on push via Jenkins + Render Deploy Hook.</p>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <span>© <span id="year"></span> DevOps Automation System</span>
+    <span class="pulse">CI/CD Live</span>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>
