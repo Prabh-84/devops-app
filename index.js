@@ -1,30 +1,33 @@
 const express = require('express');
 const client = require('prom-client');
-const path = require('path');
-
 const app = express();
 
-// Prometheus (already installed)
-client.collectDefaultMetrics();
+// Prometheus Metrics Registry
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
 
-// Static UI
-app.use(express.static(path.join(__dirname, 'public')));
-
-// API (optional)
-app.get('/api', (req, res) => {
-  res.json({ message: 'CI/CD working ✅ via Jenkins → Docker → Docker Hub → Render' });
-});
-
-// Health endpoint for dashboard
+// Health Check Endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', uptime: process.uptime(), timestamp: new Date().toISOString() });
+  res.status(200).json({
+    status: 'UP',
+    message: 'Service is healthy',
+    timestamp: new Date().toISOString(),
+  });
 });
 
-// Metrics endpoint (already added earlier, keep as-is)
+// Metrics Endpoint
 app.get('/metrics', async (req, res) => {
-  res.set('Content-Type', client.register.contentType);
-  res.end(await client.register.metrics());
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
 });
 
+// Home Page
+app.get('/', (req, res) => {
+  res.json({ message: 'App Running Successfully with CI/CD + Monitoring ✅' });
+});
+
+// Use dynamic port for Render
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Server is running on port ${PORT}`);
+});
